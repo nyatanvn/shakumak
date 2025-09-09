@@ -1,14 +1,55 @@
 # Shakuhachi Makers Tool
 
-A modern web application for calculating precise hole positions for making traditional and diatonic shakuhachi flutes.
+A modern web application for calculating precise hole positions for making traditional and diatonic shakuhachi flutes, with integrated metronome for practice.
 
 ## Features
 
+### Shakuhachi Calculators
 - **Traditional Shakuhachi Calculator (5-hole)**: Calculate hole positions for traditional shakuhachi with pentatonic scale
 - **Diatonic Shakuhachi Calculator (7-hole)**: Calculate hole positions for diatonic shakuhachi with natural major scale
-- **Interactive Parameters**: Adjust flute length, hole diameter, bore diameter, wall thickness, and ergonomic limits
+- **Variation Shakuhachi Calculator**: Advanced calculator with multiple maker styles including:
+  - Nelson Zink formula
+  - Monty Levenson approach
+  - Perry Yung technique
+  - Atsuya Okuda method
+  - Yamaguchi variants (Katsuya, Kuroda, Kinya)
+  - Kodama Hiroyuki variations
+- **Physics-Based Calculations**: Environmental parameters (temperature, humidity), adjustable A frequency reference
+- **Acoustic Wave Analysis**: Resonance mode analysis, standing wave patterns, micro-tuning suggestions
+
+### Integrated Metronome
+- **Speed Trainer**: Professional metronome with tempo control and patterns
+- **Multiple Sound Kits**: Drum kits, tabla, electronic sounds, metronome clicks
+- **Visual Feedback**: Real-time tempo visualization and track patterns
+- **Background/Practice Mode**: Runs independently for shakuhachi practice
+
+### Interactive Features
 - **Real-time Calculations**: See results update instantly as you modify parameters
 - **Responsive Design**: Works on desktop and mobile devices
+- **Comparison Tables**: Compare different maker styles side-by-side
+- **Export Options**: Save calculations for reference
+
+## Current Status
+
+### ✅ Working Features
+- All 4 calculator tabs functional
+- Metronome visual interface complete
+- Audio files integrated from metro-master
+- React refs modernized for React 19 compatibility
+- Tone.js API compatibility fixed
+- Application compiles and runs successfully
+
+### 🔧 Known Issues
+- **Metronome Audio**: Visual interface works but sound playback needs debugging
+- Audio loading may need additional initialization
+
+### 🚀 Recent Updates (Backup Created)
+- Complete metronome integration with visual feedback
+- All React compatibility issues resolved
+- Audio files copied from metro-master project
+- Robust error handling for missing audio files
+- Git backup created: commit `7d712e7`
+- Filesystem backup: `shakumak-backup-visual-working-[timestamp]`
 
 ## Getting Started
 
@@ -24,7 +65,7 @@ Then, run the development server:
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3001](http://localhost:3001) with your browser to see the result.
 
 ## Build for Production
 
