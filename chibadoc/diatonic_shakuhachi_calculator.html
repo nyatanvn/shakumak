@@ -1,0 +1,380 @@
+
+<!-- saved from url=(0038)http://jeremy.org/music/shakutool.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <link href="./shakutool_files/css" rel="stylesheet" type="text/css">
+    <link href="./shakutool_files/css(1)" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        h1, h2 {
+            text-align: center;
+            font-family: Ribeye Marrow;
+        }
+
+        p, th, td, input {
+            font-family: Linden Hill;
+            font-size: 14pt;
+        }
+	p { text-align: center; }
+        .error {
+            color: red;
+        }
+        input#flute_length_text, input#hole_diameter_text, input#bore_diameter_text, input#ergonomic_limit_text {
+            width: 3.2em;
+        }
+        input#wall_thickness_text {
+            width: 4em;
+        }
+
+        table {
+            margin-left: auto;
+            margin-right: auto;
+            width: 500px;
+        }
+
+        table th {
+            text-align: right;
+        }
+
+        table#output {
+            border: 1px solid grey;
+            padding: 10px;
+        }
+
+        body {
+            width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        div.fb-comments {
+            width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+<style type="text/css">.fb_hidden{position:absolute;top:-10000px;z-index:10001}.fb_reposition{overflow:hidden;position:relative}.fb_invisible{display:none}.fb_reset{background:none;border:0;border-spacing:0;color:#000;cursor:auto;direction:ltr;font-family:"lucida grande", tahoma, verdana, arial, sans-serif;font-size:11px;font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal}.fb_reset>div{overflow:hidden}.fb_link img{border:none}@keyframes fb_transform{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}.fb_animate{animation:fb_transform .3s forwards}
+.fb_dialog{background:rgba(82, 82, 82, .7);position:absolute;top:-10000px;z-index:10001}.fb_reset .fb_dialog_legacy{overflow:visible}.fb_dialog_advanced{padding:10px;-moz-border-radius:8px;-webkit-border-radius:8px;border-radius:8px}.fb_dialog_content{background:#fff;color:#333}.fb_dialog_close_icon{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 0 transparent;_background-image:url(https://static.xx.fbcdn.net/rsrc.php/v3/yL/r/s816eWC-2sl.gif);cursor:pointer;display:block;height:15px;position:absolute;right:18px;top:17px;width:15px}.fb_dialog_mobile .fb_dialog_close_icon{top:5px;left:5px;right:auto}.fb_dialog_padding{background-color:transparent;position:absolute;width:1px;z-index:-1}.fb_dialog_close_icon:hover{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -15px transparent;_background-image:url(https://static.xx.fbcdn.net/rsrc.php/v3/yL/r/s816eWC-2sl.gif)}.fb_dialog_close_icon:active{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -30px transparent;_background-image:url(https://static.xx.fbcdn.net/rsrc.php/v3/yL/r/s816eWC-2sl.gif)}.fb_dialog_loader{background-color:#f6f7f9;border:1px solid #606060;font-size:24px;padding:20px}.fb_dialog_top_left,.fb_dialog_top_right,.fb_dialog_bottom_left,.fb_dialog_bottom_right{height:10px;width:10px;overflow:hidden;position:absolute}.fb_dialog_top_left{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/ye/r/8YeTNIlTZjm.png) no-repeat 0 0;left:-10px;top:-10px}.fb_dialog_top_right{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/ye/r/8YeTNIlTZjm.png) no-repeat 0 -10px;right:-10px;top:-10px}.fb_dialog_bottom_left{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/ye/r/8YeTNIlTZjm.png) no-repeat 0 -20px;bottom:-10px;left:-10px}.fb_dialog_bottom_right{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/ye/r/8YeTNIlTZjm.png) no-repeat 0 -30px;right:-10px;bottom:-10px}.fb_dialog_vert_left,.fb_dialog_vert_right,.fb_dialog_horiz_top,.fb_dialog_horiz_bottom{position:absolute;background:#525252;filter:alpha(opacity=70);opacity:.7}.fb_dialog_vert_left,.fb_dialog_vert_right{width:10px;height:100%}.fb_dialog_vert_left{margin-left:-10px}.fb_dialog_vert_right{right:0;margin-right:-10px}.fb_dialog_horiz_top,.fb_dialog_horiz_bottom{width:100%;height:10px}.fb_dialog_horiz_top{margin-top:-10px}.fb_dialog_horiz_bottom{bottom:0;margin-bottom:-10px}.fb_dialog_iframe{line-height:0}.fb_dialog_content .dialog_title{background:#6d84b4;border:1px solid #365899;color:#fff;font-size:14px;font-weight:bold;margin:0}.fb_dialog_content .dialog_title>span{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yd/r/Cou7n-nqK52.gif) no-repeat 5px 50%;float:left;padding:5px 0 7px 26px}body.fb_hidden{-webkit-transform:none;height:100%;margin:0;overflow:visible;position:absolute;top:-10000px;left:0;width:100%}.fb_dialog.fb_dialog_mobile.loading{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/ya/r/3rhSv5V8j3o.gif) white no-repeat 50% 50%;min-height:100%;min-width:100%;overflow:hidden;position:absolute;top:0;z-index:10001}.fb_dialog.fb_dialog_mobile.loading.centered{width:auto;height:auto;min-height:initial;min-width:initial;background:none}.fb_dialog.fb_dialog_mobile.loading.centered #fb_dialog_loader_spinner{width:100%}.fb_dialog.fb_dialog_mobile.loading.centered .fb_dialog_content{background:none}.loading.centered #fb_dialog_loader_close{color:#fff;display:block;padding-top:20px;clear:both;font-size:18px}#fb-root #fb_dialog_ipad_overlay{background:rgba(0, 0, 0, .45);position:absolute;bottom:0;left:0;right:0;top:0;width:100%;min-height:100%;z-index:10000}#fb-root #fb_dialog_ipad_overlay.hidden{display:none}.fb_dialog.fb_dialog_mobile.loading iframe{visibility:hidden}.fb_dialog_content .dialog_header{-webkit-box-shadow:white 0 1px 1px -1px inset;background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#738ABA), to(#2C4987));border-bottom:1px solid;border-color:#1d4088;color:#fff;font:14px Helvetica, sans-serif;font-weight:bold;text-overflow:ellipsis;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0;vertical-align:middle;white-space:nowrap}.fb_dialog_content .dialog_header table{-webkit-font-smoothing:subpixel-antialiased;height:43px;width:100%}.fb_dialog_content .dialog_header td.header_left{font-size:12px;padding-left:5px;vertical-align:middle;width:60px}.fb_dialog_content .dialog_header td.header_right{font-size:12px;padding-right:5px;vertical-align:middle;width:60px}.fb_dialog_content .touchable_button{background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#4966A6), color-stop(.5, #355492), to(#2A4887));border:1px solid #29487d;-webkit-background-clip:padding-box;-webkit-border-radius:3px;-webkit-box-shadow:rgba(0, 0, 0, .117188) 0 1px 1px inset, rgba(255, 255, 255, .167969) 0 1px 0;display:inline-block;margin-top:3px;max-width:85px;line-height:18px;padding:4px 12px;position:relative}.fb_dialog_content .dialog_header .touchable_button input{border:none;background:none;color:#fff;font:12px Helvetica, sans-serif;font-weight:bold;margin:2px -12px;padding:2px 6px 3px 6px;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog_content .dialog_header .header_center{color:#fff;font-size:16px;font-weight:bold;line-height:18px;text-align:center;vertical-align:middle}.fb_dialog_content .dialog_content{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/y9/r/jKEcVPZFk-2.gif) no-repeat 50% 50%;border:1px solid #555;border-bottom:0;border-top:0;height:150px}.fb_dialog_content .dialog_footer{background:#f6f7f9;border:1px solid #555;border-top-color:#ccc;height:40px}#fb_dialog_loader_close{float:left}.fb_dialog.fb_dialog_mobile .fb_dialog_close_button{text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog.fb_dialog_mobile .fb_dialog_close_icon{visibility:hidden}#fb_dialog_loader_spinner{animation:rotateSpinner 1.2s linear infinite;background-color:transparent;background-image:url(https://static.xx.fbcdn.net/rsrc.php/v3/yD/r/t-wz8gw1xG1.png);background-repeat:no-repeat;background-position:50% 50%;height:24px;width:24px}@keyframes rotateSpinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.fb_iframe_widget{display:inline-block;position:relative}.fb_iframe_widget span{display:inline-block;position:relative;text-align:justify}.fb_iframe_widget iframe{position:absolute}.fb_iframe_widget_fluid_desktop,.fb_iframe_widget_fluid_desktop span,.fb_iframe_widget_fluid_desktop iframe{max-width:100%}.fb_iframe_widget_fluid_desktop iframe{min-width:220px;position:relative}.fb_iframe_widget_lift{z-index:1}.fb_hide_iframes iframe{position:relative;left:-10000px}.fb_iframe_widget_loader{position:relative;display:inline-block}.fb_iframe_widget_fluid{display:inline}.fb_iframe_widget_fluid span{width:100%}.fb_iframe_widget_loader iframe{min-height:32px;z-index:2;zoom:1}.fb_iframe_widget_loader .FB_Loader{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/y9/r/jKEcVPZFk-2.gif) no-repeat;height:32px;width:32px;margin-left:-16px;position:absolute;left:50%;z-index:4}</style></head>
+<body>
+<h1>Diatonic Shakuhachi Tool</h1>
+<p>Jacopo Saporetti Edited a program made By Jeremy Bornstein, based on algorithms by Nelson Zink<!-- documented <a href="http://www.navaching.com/shaku/ergon.html">here</a>-->. Thanks Nelson! and thanks Jeremy!</p>
+<p> Diatonic Shakuhachi is a shakuhachi with 7 holes and diatonic scale ex 2.0 is C,D,E,F,G,A,B,C </p>
+<p> Ergonomic Limit is not working yet and cannot be trusted at the moment </p>
+<p> Original software here   <a href="http://jeremy.org/music/shakutool.html">here</a></p>
+<table id="parameters">
+    <tbody>
+        <tr>
+            <th>Flute Length</th>
+            <td><input type="range" id="flute_length_slider" onchange="change_flute_length()" min="30" max="1000"> <input id="flute_length_text" onchange="change_flute_length_text()">mm</td>
+        </tr>
+        <tr>
+            <th>Hole Diameter</th>
+            <td><input type="range" id="hole_diameter_slider" onchange="change_hole_diameter()" min="5" max="30"> <input id="hole_diameter_text" onchange="change_hole_diameter_text()">mm</td>
+        </tr>
+        <tr>
+            <th>Bore Diameter</th>
+            <td><input type="range" id="bore_diameter_slider" step="0.5" onchange="change_bore_diameter()" min="10" max="100"> <input id="bore_diameter_text" onchange="change_bore_diameter_text()">mm</td>
+        </tr>
+        <tr>
+            <th>Wall Thickness</th>
+            <td><input type="range" id="wall_thickness_slider" step="0.125" onchange="change_wall_thickness()" min="1" max="10"> <input id="wall_thickness_text" onchange="change_wall_thickness_text()">mm</td>
+        </tr>
+        <tr>
+            <th>Ergonomic Limit</th>
+            <td><input type="range" id="ergonomic_limit_slider" onchange="change_ergonomic_limit()" min="10" max="180"> <input id="ergonomic_limit_text" onchange="change_ergonomic_limit_text()">mm</td>
+        </tr>
+
+    </tbody>
+</table>
+<table id="output">
+    <tbody><tr><th>Base Frequency</th> <td id="base_frequency">240.8 (B)</td></tr>
+    <tr><th>Aspect Ratio</th> <td id="aspect_ratio">31.71</td></tr>
+	
+	 <tr><th>Hole #7 thumb hole</th> <td id="hole_7" class="">insert dat</td></tr>
+	 <tr><th>Hole #6</th> <td id="hole_6" class="">insert data</td></tr>
+    <tr><th>Hole #5</th> <td id="hole_5" class="">insert dat</td></tr>
+    <tr><th>Hole #4</th> <td id="hole_4" class="">3insert dat</td></tr>
+    <tr><th>Hole #3</th> <td id="hole_3" class="">insert dat</td></tr>
+    <tr><th>Hole #2</th> <td id="hole_2" class="">4insert dat</td></tr>
+    <tr><th>Hole #1</th> <td id="hole_1" class="">insert dat</td></tr>
+	
+	<tr><th>Span 7-6</th> <td id="span_7_6">?</td></tr>
+    <tr><th>Span 6-5</th> <td id="span_6_5">?</td></tr>
+    <tr><th>Span 5-4</th> <td id="span_5_4">?</td></tr>
+    <tr><th>Span 4-3</th> <td id="span_4_3">?</td></tr>
+    <tr><th>Span 2-1</th> <td id="span_2_1">?</td></tr>
+</tbody></table>
+<!--
+<h2>Comments</h2>
+<div class="fb-comments" data-href="http://jeremy.org/music/shakutool.html" data-num-posts="5" data-width="500"></div>
+<div id="fb-root"></div>
+-->
+
+<script id="facebook-jssdk" src="./shakutool_files/all.js.download"></script><script>
+<!--
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=134901139982276";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+-->
+function ready (f) {
+    if (document.readyState != 'loading') { f (); return; }
+    if (document.addEventListener) { window.addEventListener ("load", f, false ); return; }
+    window.attachEvent ( "onload", f );
+}
+
+var FLUTE_LENGTH_SLIDER;
+var FLUTE_LENGTH_TEXT;
+var FLUTE_LENGTH_MIN = 30;
+var FLUTE_LENGTH_MAX = 1000;
+var FLUTE_LENGTH_DEFAULT = 650;
+
+var HOLE_DIAMETER_SLIDER;
+var HOLE_DIAMETER_TEXT;
+var HOLE_DIAMETER_MIN = 5;
+var HOLE_DIAMETER_MAX = 30;
+var HOLE_DIAMETER_DEFAULT=10;
+
+var BORE_DIAMETER_SLIDER;
+var BORE_DIAMETER_TEXT;
+var BORE_DIAMETER_MIN = 10;
+var BORE_DIAMETER_MAX = 100;
+var BORE_DIAMETER_DEFAULT = 20.5;
+
+var WALL_THICKNESS_SLIDER;
+var WALL_THICKNESS_TEXT;
+var WALL_THICKNESS_MIN = 1;
+var WALL_THICKNESS_MAX = 10;
+var WALL_THICKNESS_DEFAULT = 3 * 1.125;
+
+var ERGONOMIC_LIMIT_SLIDER;
+var ERGONOMIC_LIMIT_TEXT;
+var ERGONOMIC_LIMIT_MIN = 10;
+var ERGONOMIC_LIMIT_MAX = 180;
+var ERGONOMIC_LIMIT_DEFAULT = 60;
+
+var NOTE_NAME;
+
+function change_flute_length () {
+    FLUTE_LENGTH_TEXT.value = FLUTE_LENGTH_SLIDER.value;
+    NOTE_NAME = note_name (156521 / FLUTE_LENGTH_SLIDER.value);
+    calculate ();
+}
+function change_flute_length_text () {
+    var value = parseFloat (FLUTE_LENGTH_TEXT.value);
+    value = Math.max (Math.min (value, FLUTE_LENGTH_MAX), FLUTE_LENGTH_MIN);
+    FLUTE_LENGTH_TEXT.value = value;
+    FLUTE_LENGTH_SLIDER.value = value;
+    NOTE_NAME = note_name (156521 / value);
+    calculate ();
+}
+
+function change_hole_diameter () {
+    HOLE_DIAMETER_TEXT.value = HOLE_DIAMETER_SLIDER.value;
+    calculate ();
+}
+function change_hole_diameter_text () {
+    var value = parseFloat (HOLE_DIAMETER_TEXT.value);
+    value = Math.max (Math.min (value, HOLE_DIAMETER_MAX), HOLE_DIAMETER_MIN);
+    HOLE_DIAMETER_TEXT.value = value;
+    HOLE_DIAMETER_SLIDER.value = value;
+    calculate ();
+}
+
+function change_bore_diameter () {
+    BORE_DIAMETER_TEXT.value = BORE_DIAMETER_SLIDER.value;
+    calculate ();
+}
+function change_bore_diameter_text () {
+    var value = parseFloat (BORE_DIAMETER_TEXT.value);
+    value = Math.max (Math.min (value, BORE_DIAMETER_MAX), BORE_DIAMETER_MIN);
+    BORE_DIAMETER_TEXT.value = value;
+    BORE_DIAMETER_SLIDER.value = value;
+    calculate ();
+}
+
+function change_wall_thickness () {
+    WALL_THICKNESS_TEXT.value = WALL_THICKNESS_SLIDER.value;
+    calculate ();
+}
+function change_wall_thickness_text () {
+    var value = parseFloat (WALL_THICKNESS_TEXT.value);
+    value = Math.max (Math.min (value, WALL_THICKNESS_MAX), WALL_THICKNESS_MIN);
+    WALL_THICKNESS_TEXT.value = value;
+    WALL_THICKNESS_SLIDER.value = value;
+    calculate ();
+}
+
+function change_ergonomic_limit () {
+    ERGONOMIC_LIMIT_TEXT.value = ERGONOMIC_LIMIT_SLIDER.value;
+    calculate ();
+}
+function change_ergonomic_limit_text () {
+    var value = parseFloat (ERGONOMIC_LIMIT_TEXT.value);
+    value = Math.max (Math.min (value, ERGONOMIC_LIMIT_MAX), ERGONOMIC_LIMIT_MIN);
+    ERGONOMIC_LIMIT_TEXT.value = value;
+    ERGONOMIC_LIMIT_SLIDER.value = value;
+    calculate ();
+}
+
+function note_name (hertz) {
+    // thanks to http://www.phy.mtu.edu/~suits/NoteFreqCalcs.html !
+    var base_frequency = 440;
+    var note_names = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#'];
+    var A = Math.pow (2, 1/12);
+    var value_low = -50;
+    var value_high = 50;
+
+    function name_for_note_by_semitones (count) {
+        var mod = count % 12;
+        if (mod < 0) return note_names[12+mod];
+        else return note_names[mod];
+    }
+
+    var tries = 0;
+    while (true) {
+        var middle = Math.round ((value_high - value_low) / 2 + value_low);
+        var freq = base_frequency * Math.pow (A, middle);
+
+        if (freq < hertz) value_low = middle;
+        else if (freq > hertz) value_high = middle;
+
+        if (value_low + 1 == value_high) {
+            var diff_low = hertz - base_frequency * Math.pow (A, value_low);
+            var diff_high = base_frequency * Math.pow (A, value_high) - hertz;
+            if (diff_low < diff_high) {
+                return name_for_note_by_semitones(value_low);
+            } else {
+                return name_for_note_by_semitones(value_high);
+            }
+        }
+
+        tries += 1;
+        if (tries > 16) break;
+    }
+
+    return '?'
+}
+
+
+function calculate () {
+    // NOTE: variable names preserved from Nelson's original. I haven't actually attempted to break this down at all, just to duplicate the original results.
+
+    var TL = parseFloat (FLUTE_LENGTH_SLIDER.value);
+    var Dh = parseFloat (HOLE_DIAMETER_SLIDER.value);
+    var BaseNote = 156521.0 / TL;
+    var Db = parseFloat (BORE_DIAMETER_SLIDER.value);
+    var Wt = parseFloat (WALL_THICKNESS_SLIDER.value);
+    var Te = Wt + (0.75 * Dh);
+    var BigNum = 165674
+    var TubeLength = BigNum / BaseNote;
+    var MEL = TubeLength - (0.3 * Db) - TL;
+    var IInch = TL / 25.4;
+    var AspectRatio = TL/Db;
+
+    var LastLength = TubeLength;
+    var temp = 0;
+    var HoleLocations = [];
+    var Interval = [2,2,1,2,2,2,1];
+
+    for (var zz = 0; zz < Interval.length; zz++) {
+        var thisInterval = Interval[zz];
+        temp += thisInterval;
+        var Hz = BaseNote * Math.pow (2,(temp/12.0));
+        var NewLength = BigNum / Hz;
+        var S = (LastLength - NewLength) / 2.0;
+        CF = S * (  (     Math.pow(((   (      (Te/S)*  Math.pow(Db/Dh,2)     )   *2)+1),0.5)    )   - 1);
+        var HoleLocation = Math.round (NewLength-MEL-CF);
+        HoleLocations.push (HoleLocation);
+        LastLength = NewLength + CF;
+    }
+
+    HoleLocations = HoleLocations.reverse ();
+    var AlternateHoleLocations = [null, null, null, null, null,null,null];
+
+    var ErgoSpan = parseFloat (ERGONOMIC_LIMIT_SLIDER.value);
+    var ThumbS = HoleLocations[1] - HoleLocations[0];
+   var top2 = HoleLocations[2] - HoleLocations[1];
+   var TopS = HoleLocations[4] - HoleLocations[3];
+	var Bottom2 = HoleLocations[5] - HoleLocations[4];
+    var BottomS = HoleLocations[6] - HoleLocations[5];
+
+    if (ThumbS > (ErgoSpan * 2.0 / 3.0)) AlternateHoleLocations[0] = HoleLocations[1] + Math.round (ErgoSpan * 2.0 / 3.0);
+    //if (Top2 > ErgoSpan) AlternateHoleLocations[2] = HoleLocations[1] + ErgoSpan;   
+    //if (TopS > ErgoSpan) AlternateHoleLocations[2] = HoleLocations[1] + ErgoSpan;
+    //if (Bottom2 > ErgoSpan) AlternateHoleLocations[2] = HoleLocations[1] + ErgoSpan;
+    //if (BottomS > ErgoSpan) AlternateHoleLocations[4] = HoleLocations[3] + ErgoSpan;
+
+    document.getElementById ('base_frequency').innerHTML = '' + (Math.round (BaseNote*100) / 100) + ' (' + NOTE_NAME + ')';
+    document.getElementById ('aspect_ratio').innerHTML = Math.round (AspectRatio*100) / 100;
+
+	
+	
+	document.getElementById ('hole_7').innerHTML = HoleLocations[0] + 'mm' + (AlternateHoleLocations[0] ? ' (' + AlternateHoleLocations[0] + 'mm)' : '') + ' from top of flute';
+    document.getElementById ('hole_6').innerHTML = HoleLocations[1] + 'mm from top of flute';
+    document.getElementById ('hole_5').innerHTML = HoleLocations[2] + 'mm' + (AlternateHoleLocations[0] ? ' (' + AlternateHoleLocations[0] + 'mm)' : '') + ' from top of flute';
+    document.getElementById ('hole_4').innerHTML = HoleLocations[3] + 'mm from top of flute';
+    document.getElementById ('hole_3').innerHTML = HoleLocations[4] + 'mm' + (AlternateHoleLocations[2] ? ' (' + AlternateHoleLocations[2] + 'mm)' : '') + ' from top of flute';
+    document.getElementById ('hole_2').innerHTML = HoleLocations[5] + 'mm from top of flute';
+    document.getElementById ('hole_1').innerHTML = HoleLocations[6] + 'mm' + (AlternateHoleLocations[4] ? ' (' + AlternateHoleLocations[4] + 'mm)' : '') + ' from top of flute';
+
+	document.getElementById ('hole_7').className = HoleLocations[0] <= 0 ? 'error' : '';
+    document.getElementById ('hole_6').className = HoleLocations[1] <= 0 ? 'error' : '';
+    document.getElementById ('hole_5').className = HoleLocations[2] <= 0 ? 'error' : '';
+    document.getElementById ('hole_4').className = HoleLocations[3] <= 0 ? 'error' : '';
+    document.getElementById ('hole_3').className = HoleLocations[4] <= 0 ? 'error' : '';
+    document.getElementById ('hole_2').className = HoleLocations[5] <= 0 ? 'error' : '';
+    document.getElementById ('hole_1').className = HoleLocations[6] <= 0 ? 'error' : '';
+
+	 document.getElementById ('span_7_6').innerHTML = ThumbS + 'mm';
+    document.getElementById ('span_6_5').innerHTML = top2 + 'mm';
+	document.getElementById ('span_5_4').innerHTML = TopS + 'mm';
+    document.getElementById ('span_4_3').innerHTML = Bottom2 + 'mm';
+    document.getElementById ('span_2_1').innerHTML = BottomS + 'mm';
+}
+
+ready (function () {
+    FLUTE_LENGTH_SLIDER = document.getElementById ('flute_length_slider');
+    FLUTE_LENGTH_TEXT = document.getElementById ('flute_length_text');
+    FLUTE_LENGTH_SLIDER.min = FLUTE_LENGTH_MIN;
+    FLUTE_LENGTH_SLIDER.max = FLUTE_LENGTH_MAX;
+    FLUTE_LENGTH_SLIDER.value = FLUTE_LENGTH_DEFAULT;
+    FLUTE_LENGTH_TEXT.value = FLUTE_LENGTH_DEFAULT;
+
+    NOTE_NAME = note_name (156521 / FLUTE_LENGTH_DEFAULT);
+
+    HOLE_DIAMETER_SLIDER = document.getElementById ('hole_diameter_slider');
+    HOLE_DIAMETER_TEXT = document.getElementById ('hole_diameter_text');
+    HOLE_DIAMETER_SLIDER.min = HOLE_DIAMETER_MIN;
+    HOLE_DIAMETER_SLIDER.max = HOLE_DIAMETER_MAX;
+    HOLE_DIAMETER_SLIDER.value = HOLE_DIAMETER_DEFAULT;
+    HOLE_DIAMETER_TEXT.value = HOLE_DIAMETER_DEFAULT;
+
+    BORE_DIAMETER_SLIDER = document.getElementById ('bore_diameter_slider');
+    BORE_DIAMETER_TEXT = document.getElementById ('bore_diameter_text');
+    BORE_DIAMETER_SLIDER.min = BORE_DIAMETER_MIN;
+    BORE_DIAMETER_SLIDER.max = BORE_DIAMETER_MAX;
+    BORE_DIAMETER_SLIDER.value = BORE_DIAMETER_DEFAULT;
+    BORE_DIAMETER_TEXT.value = BORE_DIAMETER_DEFAULT;
+
+    WALL_THICKNESS_SLIDER = document.getElementById ('wall_thickness_slider');
+    WALL_THICKNESS_TEXT = document.getElementById ('wall_thickness_text');
+    WALL_THICKNESS_SLIDER.min = WALL_THICKNESS_MIN;
+    WALL_THICKNESS_SLIDER.max = WALL_THICKNESS_MAX;
+    WALL_THICKNESS_SLIDER.value = WALL_THICKNESS_DEFAULT;
+    WALL_THICKNESS_TEXT.value = WALL_THICKNESS_DEFAULT;
+
+    ERGONOMIC_LIMIT_SLIDER = document.getElementById ('ergonomic_limit_slider');
+    ERGONOMIC_LIMIT_TEXT = document.getElementById ('ergonomic_limit_text');
+    ERGONOMIC_LIMIT_SLIDER.min = ERGONOMIC_LIMIT_MIN;
+    ERGONOMIC_LIMIT_SLIDER.max = ERGONOMIC_LIMIT_MAX;
+    ERGONOMIC_LIMIT_SLIDER.value = ERGONOMIC_LIMIT_DEFAULT;
+    ERGONOMIC_LIMIT_TEXT.value = ERGONOMIC_LIMIT_DEFAULT;
+
+    calculate ();
+});
+</script>
+
+<div id="fb-root" class=" fb_reset"><div style="position: absolute; top: -10000px; height: 0px; width: 0px;"><div></div></div><div style="position: absolute; top: -10000px; height: 0px; width: 0px;"><div><iframe name="fb_xdm_frame_http" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" id="fb_xdm_frame_http" aria-hidden="true" title="Facebook Cross Domain Communication Frame" tabindex="-1" src="./shakutool_files/0eWevUAMuoH.html" style="border: none;"></iframe><iframe name="fb_xdm_frame_https" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" id="fb_xdm_frame_https" aria-hidden="true" title="Facebook Cross Domain Communication Frame" tabindex="-1" src="./shakutool_files/0eWevUAMuoH(1).html" style="border: none;"></iframe></div></div></div></body></html>

@@ -1,0 +1,469 @@
+'use client'
+
+import { useState, useEffect, useCallback } from 'react'
+import ShakuhachiDiagram from './ShakuhachiDiagram'
+
+interface ShakuhachiParams {
+  fluteLength: number
+  holeDiameter: number
+  boreDiameter: number
+  wallThickness: number
+  ergonomicLimit: number
+}
+
+interface HolePosition {
+  hole: number
+  position: number
+  alternatePosition?: number
+  error: boolean
+}
+
+interface CalculationResult {
+  baseFrequency: number
+  noteName: string
+  shakuhachiLength: string
+  aspectRatio: number
+  holePositions: HolePosition[]
+  spans: {
+    span54: number
+    span43: number
+    span21: number
+  }
+}
+
+const FLUTE_LENGTH_MIN = 30
+const FLUTE_LENGTH_MAX = 1300
+const HOLE_DIAMETER_MIN = 5
+const HOLE_DIAMETER_MAX = 30
+const BORE_DIAMETER_MIN = 10
+const BORE_DIAMETER_MAX = 100
+const WALL_THICKNESS_MIN = 1
+const WALL_THICKNESS_MAX = 10
+const ERGONOMIC_LIMIT_MIN = 10
+const ERGONOMIC_LIMIT_MAX = 180
+
+export default function ShakuhachiCalculator() {
+  const [params, setParams] = useState<ShakuhachiParams>({
+    fluteLength: 650,
+    holeDiameter: 10,
+    boreDiameter: 20.5,
+    wallThickness: 3.375,
+    ergonomicLimit: 60
+  })
+
+  const [result, setResult] = useState<CalculationResult | null>(null)
+
+  const noteNames = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#']
+
+  // Traditional shakuhachi length classification
+  const getShakuhachiLength = (lengthMm: number): string => {
+    // Traditional shakuhachi lengths with their corresponding base notes
+    // Based on the formula: BaseNote = 156521.0 / TL
+    // Verified calculations:
+    // 1.6 shaku (≈485mm) → 322.7Hz (E)
+    // 1.8 shaku (≈546mm) → 286.7Hz (D)  
+    // 2.0 shaku (≈606mm) → 258.3Hz (C)
+    
+    const traditionalLengths = [
+      { name: '1.1', minMm: 318, maxMm: 348 }, // A# (≈470Hz)
+      { name: '1.2', minMm: 349, maxMm: 379 }, // A (≈430Hz)
+      { name: '1.3', minMm: 380, maxMm: 409 }, // G (≈397Hz)
+      { name: '1.4', minMm: 410, maxMm: 439 }, // F# (≈368Hz)
+      { name: '1.5', minMm: 440, maxMm: 469 }, // F (≈344Hz)
+      { name: '1.6', minMm: 470, maxMm: 500 }, // E (≈323Hz) - Traditional
+      { name: '1.7', minMm: 501, maxMm: 530 }, // D# (≈303Hz)
+      { name: '1.8', minMm: 531, maxMm: 561 }, // D (≈287Hz) - Traditional
+      { name: '1.9', minMm: 562, maxMm: 591 }, // C# (≈272Hz)
+      { name: '2.0', minMm: 592, maxMm: 621 }, // C (≈258Hz) - Traditional
+      { name: '2.1', minMm: 622, maxMm: 652 }, // B (≈246Hz)
+      { name: '2.2', minMm: 653, maxMm: 682 }, // A# (≈235Hz)
+      { name: '2.3', minMm: 683, maxMm: 712 }, // A (≈225Hz)
+      { name: '2.4', minMm: 713, maxMm: 743 }, // G# (≈215Hz)
+      { name: '2.5', minMm: 744, maxMm: 773 }, // G# (≈207Hz)
+      { name: '2.6', minMm: 774, maxMm: 804 }, // G (≈196Hz)
+      { name: '2.7', minMm: 805, maxMm: 834 }, // F# (≈188Hz)
+      { name: '2.8', minMm: 835, maxMm: 865 }, // F (≈181Hz)
+      { name: '2.9', minMm: 866, maxMm: 895 }, // F (≈175Hz)
+      { name: '3.0', minMm: 896, maxMm: 926 }, // E (≈169Hz)
+      { name: '3.1', minMm: 927, maxMm: 956 }, // D# (≈164Hz)
+      { name: '3.2', minMm: 957, maxMm: 987 }, // D (≈159Hz)
+      { name: '3.3', minMm: 988, maxMm: 1017 }, // C# (≈154Hz)
+      { name: '3.4', minMm: 1018, maxMm: 1048 }, // C (≈149Hz)
+      { name: '3.5', minMm: 1049, maxMm: 1078 }, // B (≈145Hz)
+      { name: '3.6', minMm: 1079, maxMm: 1109 }, // A# (≈141Hz)
+      { name: '3.7', minMm: 1110, maxMm: 1139 }, // A (≈137Hz)
+      { name: '3.8', minMm: 1140, maxMm: 1170 }, // G# (≈134Hz)
+      { name: '3.9', minMm: 1171, maxMm: 1200 }, // G (≈130Hz)
+      { name: '4.0', minMm: 1201, maxMm: 1242 }, // F# (≈127Hz)
+    ]
+    
+    // Find the closest traditional length
+    const traditionalLength = traditionalLengths.find(tl => 
+      lengthMm >= tl.minMm && lengthMm <= tl.maxMm
+    )
+    
+    if (traditionalLength) {
+      return traditionalLength.name
+    }
+    
+    // If not in standard ranges, calculate approximate value based on traditional shaku
+    // 1 shaku = 303mm (traditional Japanese measurement)
+    const lengthInShaku = lengthMm / 303.0
+    return (lengthInShaku).toFixed(1)
+  }
+
+  const getNoteName = (hertz: number): string => {
+    const baseFrequency = 440
+    const A = Math.pow(2, 1/12)
+    let valueLow = -50
+    let valueHigh = 50
+
+    const nameForNoteBysemitones = (count: number): string => {
+      const mod = count % 12
+      if (mod < 0) return noteNames[12 + mod]
+      else return noteNames[mod]
+    }
+
+    let tries = 0
+    while (tries < 16) {
+      const middle = Math.round((valueHigh - valueLow) / 2 + valueLow)
+      const freq = baseFrequency * Math.pow(A, middle)
+
+      if (freq < hertz) valueLow = middle
+      else if (freq > hertz) valueHigh = middle
+
+      if (valueLow + 1 === valueHigh) {
+        const diffLow = hertz - baseFrequency * Math.pow(A, valueLow)
+        const diffHigh = baseFrequency * Math.pow(A, valueHigh) - hertz
+        if (diffLow < diffHigh) {
+          return nameForNoteBysemitones(valueLow)
+        } else {
+          return nameForNoteBysemitones(valueHigh)
+        }
+      }
+      tries++
+    }
+    return '?'
+  }
+
+  const calculate = useCallback((): CalculationResult => {
+    const TL = params.fluteLength
+    const Dh = params.holeDiameter
+    const BaseNote = 156521.0 / TL
+    const Db = params.boreDiameter
+    const Wt = params.wallThickness
+    const Te = Wt + (0.75 * Dh)
+    const BigNum = 165674
+    const TubeLength = BigNum / BaseNote
+    const MEL = TubeLength - (0.3 * Db) - TL
+    const AspectRatio = TL / Db
+
+    let LastLength = TubeLength
+    let temp = 0
+    const HoleLocations: number[] = []
+    const Interval = [3, 2, 2, 3, 2]
+
+    for (let zz = 0; zz < Interval.length; zz++) {
+      const thisInterval = Interval[zz]
+      temp += thisInterval
+      const Hz = BaseNote * Math.pow(2, temp / 12.0)
+      const NewLength = BigNum / Hz
+      const S = (LastLength - NewLength) / 2.0
+      const CF = S * (Math.pow(((Te / S) * Math.pow(Db / Dh, 2) * 2) + 1, 0.5) - 1)
+      const HoleLocation = Math.round(NewLength - MEL - CF)
+      HoleLocations.push(HoleLocation)
+      LastLength = NewLength + CF
+    }
+
+    HoleLocations.reverse()
+    const AlternateHoleLocations: (number | null)[] = [null, null, null, null, null]
+
+    const ErgoSpan = params.ergonomicLimit
+    const ThumbS = HoleLocations[1] - HoleLocations[0]
+    const TopS = HoleLocations[2] - HoleLocations[1]
+    const BottomS = HoleLocations[4] - HoleLocations[3]
+
+    if (ThumbS > (ErgoSpan * 2.0 / 3.0)) {
+      AlternateHoleLocations[0] = HoleLocations[1] + Math.round(ErgoSpan * 2.0 / 3.0)
+    }
+    if (TopS > ErgoSpan) {
+      AlternateHoleLocations[2] = HoleLocations[1] + ErgoSpan
+    }
+    if (BottomS > ErgoSpan) {
+      AlternateHoleLocations[4] = HoleLocations[3] + ErgoSpan
+    }
+
+    const holePositions: HolePosition[] = HoleLocations.map((position, index) => ({
+      hole: 5 - index,
+      position,
+      alternatePosition: AlternateHoleLocations[index] || undefined,
+      error: position <= 0
+    }))
+
+    return {
+      baseFrequency: Math.round(BaseNote * 100) / 100,
+      noteName: getNoteName(156521 / params.fluteLength),
+      shakuhachiLength: getShakuhachiLength(params.fluteLength),
+      aspectRatio: Math.round(AspectRatio * 100) / 100,
+      holePositions,
+      spans: {
+        span54: ThumbS,
+        span43: TopS,
+        span21: BottomS
+      }
+    }
+  }, [params])
+
+  useEffect(() => {
+    setResult(calculate())
+  }, [calculate])
+
+  const updateParam = (key: keyof ShakuhachiParams, value: number) => {
+    setParams(prev => ({ ...prev, [key]: value }))
+  }
+
+  return (
+    <div className="max-w-4xl mx-auto p-6 space-y-8">
+      <div className="text-center">
+        <h1 className="text-4xl font-bold text-gray-900 mb-4">Shakuhachi Tool</h1>
+        <p className="text-gray-600">
+          By Jeremy Bornstein, based on algorithms by Nelson Zink. Extended by Tran Nghia for flute lengths up to 1300mm.
+        </p>
+      </div>
+
+      <div className="grid lg:grid-cols-2 gap-8">
+        {/* Parameters */}
+        <div className="space-y-6">
+          <h2 className="text-2xl font-semibold text-gray-900">Parameters</h2>
+          
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Flute Length: {params.fluteLength}mm
+              </label>
+              <input
+                type="range"
+                min={FLUTE_LENGTH_MIN}
+                max={FLUTE_LENGTH_MAX}
+                value={params.fluteLength}
+                onChange={(e) => updateParam('fluteLength', Number(e.target.value))}
+                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+              />
+              <input
+                type="number"
+                value={params.fluteLength}
+                onChange={(e) => updateParam('fluteLength', Math.min(Math.max(Number(e.target.value), FLUTE_LENGTH_MIN), FLUTE_LENGTH_MAX))}
+                className="mt-2 w-20 px-2 py-1 border border-gray-300 rounded text-sm"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Hole Diameter: {params.holeDiameter}mm
+              </label>
+              <input
+                type="range"
+                min={HOLE_DIAMETER_MIN}
+                max={HOLE_DIAMETER_MAX}
+                value={params.holeDiameter}
+                onChange={(e) => updateParam('holeDiameter', Number(e.target.value))}
+                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+              />
+              <input
+                type="number"
+                value={params.holeDiameter}
+                onChange={(e) => updateParam('holeDiameter', Math.min(Math.max(Number(e.target.value), HOLE_DIAMETER_MIN), HOLE_DIAMETER_MAX))}
+                className="mt-2 w-20 px-2 py-1 border border-gray-300 rounded text-sm"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Bore Diameter: {params.boreDiameter}mm
+              </label>
+              <input
+                type="range"
+                min={BORE_DIAMETER_MIN}
+                max={BORE_DIAMETER_MAX}
+                step="0.5"
+                value={params.boreDiameter}
+                onChange={(e) => updateParam('boreDiameter', Number(e.target.value))}
+                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+              />
+              <input
+                type="number"
+                step="0.5"
+                value={params.boreDiameter}
+                onChange={(e) => updateParam('boreDiameter', Math.min(Math.max(Number(e.target.value), BORE_DIAMETER_MIN), BORE_DIAMETER_MAX))}
+                className="mt-2 w-20 px-2 py-1 border border-gray-300 rounded text-sm"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Wall Thickness: {params.wallThickness}mm
+              </label>
+              <input
+                type="range"
+                min={WALL_THICKNESS_MIN}
+                max={WALL_THICKNESS_MAX}
+                step="0.125"
+                value={params.wallThickness}
+                onChange={(e) => updateParam('wallThickness', Number(e.target.value))}
+                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+              />
+              <input
+                type="number"
+                step="0.125"
+                value={params.wallThickness}
+                onChange={(e) => updateParam('wallThickness', Math.min(Math.max(Number(e.target.value), WALL_THICKNESS_MIN), WALL_THICKNESS_MAX))}
+                className="mt-2 w-20 px-2 py-1 border border-gray-300 rounded text-sm"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Ergonomic Limit: {params.ergonomicLimit}mm
+              </label>
+              <input
+                type="range"
+                min={ERGONOMIC_LIMIT_MIN}
+                max={ERGONOMIC_LIMIT_MAX}
+                value={params.ergonomicLimit}
+                onChange={(e) => updateParam('ergonomicLimit', Number(e.target.value))}
+                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+              />
+              <input
+                type="number"
+                value={params.ergonomicLimit}
+                onChange={(e) => updateParam('ergonomicLimit', Math.min(Math.max(Number(e.target.value), ERGONOMIC_LIMIT_MIN), ERGONOMIC_LIMIT_MAX))}
+                className="mt-2 w-20 px-2 py-1 border border-gray-300 rounded text-sm"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Results */}
+        <div>
+          <h2 className="text-2xl font-semibold text-gray-900 mb-6">Results</h2>
+          
+          {result && (
+            <div className="bg-gray-50 p-6 rounded-lg border">
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between">
+                  <span className="font-medium">Base Frequency:</span>
+                  <span>{result.baseFrequency} Hz ({result.noteName}) - {result.shakuhachiLength}</span>
+                </div>
+                
+                <div className="flex justify-between">
+                  <span className="font-medium">Aspect Ratio:</span>
+                  <span>{result.aspectRatio}</span>
+                </div>
+                
+                <div className="border-t pt-3 mt-4">
+                  <h3 className="font-medium text-gray-900 mb-3">Hole Positions</h3>
+                  {result.holePositions.map((hole) => (
+                    <div key={hole.hole} className={`flex justify-between py-1 ${hole.error ? 'text-red-600' : ''}`}>
+                      <span className="font-medium">Hole #{hole.hole}:</span>
+                      <span>
+                        {hole.position}mm
+                        {hole.alternatePosition && ` (${hole.alternatePosition}mm)`}
+                        {' from top of flute'}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="border-t pt-3 mt-4">
+                  <h3 className="font-medium text-gray-900 mb-3">Spans</h3>
+                  <div className="flex justify-between">
+                    <span className="font-medium">Span 5-4:</span>
+                    <span>{result.spans.span54}mm</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-medium">Span 4-3:</span>
+                    <span>{result.spans.span43}mm</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-medium">Span 2-1:</span>
+                    <span>{result.spans.span21}mm</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        </div>
+      </div>
+
+      {/* Results and Technical Diagram */}
+      <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Results */}
+        <div>
+          <h2 className="text-2xl font-semibold text-gray-900 mb-6">Results</h2>
+          
+          {result && (
+            <div className="bg-gray-50 p-6 rounded-lg border">
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between">
+                  <span className="font-medium">Base Frequency:</span>
+                  <span>{result.baseFrequency} Hz ({result.noteName}) - {result.shakuhachiLength}</span>
+                </div>
+                
+                <div className="flex justify-between">
+                  <span className="font-medium">Aspect Ratio:</span>
+                  <span>{result.aspectRatio}</span>
+                </div>
+                
+                <div className="border-t pt-3 mt-4">
+                  <h3 className="font-medium text-gray-900 mb-3">Hole Positions</h3>
+                  {result.holePositions.map((hole) => (
+                    <div key={hole.hole} className={`flex justify-between py-1 ${hole.error ? 'text-red-600' : ''}`}>
+                      <span className="font-medium">Hole #{hole.hole}:</span>
+                      <span>
+                        {hole.position}mm
+                        {hole.alternatePosition && ` (${hole.alternatePosition}mm)`}
+                        {' from top of flute'}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="border-t pt-3 mt-4">
+                  <h3 className="font-medium text-gray-900 mb-3">Spans</h3>
+                  <div className="flex justify-between">
+                    <span className="font-medium">Span 5-4:</span>
+                    <span>{result.spans.span54}mm</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-medium">Span 4-3:</span>
+                    <span>{result.spans.span43}mm</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-medium">Span 2-1:</span>
+                    <span>{result.spans.span21}mm</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Technical Diagram */}
+        <div>
+          {result && (
+            <ShakuhachiDiagram
+              fluteLength={params.fluteLength}
+              holeDiameter={params.holeDiameter}
+              boreDiameter={params.boreDiameter}
+              wallThickness={params.wallThickness}
+              holePositions={result.holePositions}
+              spans={result.spans}
+              type="traditional"
+            />
+          )}
+      </div>
+    </div>
+  )
+}

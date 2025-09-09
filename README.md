@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Shakuhachi Makers Tool
+
+A modern web application for calculating precise hole positions for making traditional and diatonic shakuhachi flutes.
+
+## Features
+
+- **Traditional Shakuhachi Calculator (5-hole)**: Calculate hole positions for traditional shakuhachi with pentatonic scale
+- **Diatonic Shakuhachi Calculator (7-hole)**: Calculate hole positions for diatonic shakuhachi with natural major scale
+- **Interactive Parameters**: Adjust flute length, hole diameter, bore diameter, wall thickness, and ergonomic limits
+- **Real-time Calculations**: See results update instantly as you modify parameters
+- **Responsive Design**: Works on desktop and mobile devices
 
 ## Getting Started
 
-First, run the development server:
+First, install the dependencies:
+
+```bash
+npm install
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Build for Production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+```
 
-## Learn More
+## Credits
 
-To learn more about Next.js, take a look at the following resources:
+- **Algorithms**: Nelson Zink
+- **Original Implementation**: Jeremy Bornstein
+- **Extensions**: Tran Nghia (extended flute length to 1300mm for 3.6+ flutes)
+- **Diatonic Version**: Jacopo Saporetti
+- **Modern Web Implementation**: Built with Next.js, TypeScript, and Tailwind CSS
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## About Shakuhachi
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The shakuhachi is a traditional Japanese bamboo flute. This tool helps instrument makers calculate the precise positions for finger holes based on acoustic principles and ergonomic considerations.
 
-## Deploy on Vercel
+### Traditional Shakuhachi (5-hole)
+- Uses pentatonic scale intervals
+- 5 finger holes plus thumb hole
+- Focuses on traditional Japanese scales
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Diatonic Shakuhachi (7-hole)
+- Uses diatonic scale intervals (whole-whole-half-whole-whole-whole-half)
+- 7 holes for natural major scale
+- Modern adaptation for Western music
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Technology Stack
+
+- [Next.js 15](https://nextjs.org/) - React framework
+- [TypeScript](https://www.typescriptlang.org/) - Type safety
+- [Tailwind CSS](https://tailwindcss.com/) - Styling
+- [React](https://reactjs.org/) - UI library
