@@ -22,6 +22,12 @@ class TrackRow extends Component {
             return
         }
 
+        // Check if this player is already initialized to prevent duplicate calls
+        if (this.props.soundLibrary.playersArr[this.props.idx]) {
+            console.log(`Player ${this.props.idx} already initialized, skipping...`);
+            return;
+        }
+
         // TODO: I think I can find better place for this code. It's doing the job though and I'm lazy so...
         const instrument = InstrumentsByKey[InitPreset.samples[this.props.idx].instrumentKey];
         const file = InitPreset.samples[this.props.idx].file;

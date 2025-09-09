@@ -376,9 +376,26 @@ class SoundMachine extends Component {
 	}
 
 	start() {
-		this.transport.start("+.1");
-		this.part.start();
-		this.setState({ isPlaying: true });
+		// Start audio context for modern browsers
+		console.log('Starting metronome...');
+		console.log('Audio context state:', Tone.context.state);
+		
+		if (Tone.context.state !== 'running') {
+			console.log('Starting Tone.js audio context...');
+			Tone.start().then(() => {
+				console.log('Audio context started successfully');
+				this.transport.start("+.1");
+				this.part.start();
+				this.setState({ isPlaying: true });
+			}).catch(e => {
+				console.error('Failed to start audio context:', e);
+			});
+		} else {
+			console.log('Audio context already running');
+			this.transport.start("+.1");
+			this.part.start();
+			this.setState({ isPlaying: true });
+		}
 	}
 }
 
