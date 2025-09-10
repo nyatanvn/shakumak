@@ -29,11 +29,16 @@ class SoundMachine extends Component {
 	presetsManagerRef = React.createRef();
 	debugRef = React.createRef();
 
+	// Add flag to prevent rapid onControlChange calls during startup
+	isInitializing = true;
+
 	state = {
 		initialized: false,
 		config: InitPreset,
 		track: this.props.track,
-		timeSignature: this.props.timeSignature
+		timeSignature: this.props.timeSignature,
+		currentPlayMode: InitPreset.playMode,
+		currentPlaybackMode: InitPreset.playbackMode
 	};
 
 	transport = Tone.Transport;
@@ -48,9 +53,16 @@ class SoundMachine extends Component {
 		// this.part.humanize = true;
 		this.part.start(0)
 
-
-		const config = this.getConfig();
-		this.setPlan(config);
+		// Delay initialization to ensure all child components are ready
+		setTimeout(() => {
+			const config = this.getConfig();
+			this.setPlan(config);
+			// Clear initializing flag after setup is complete
+			setTimeout(() => {
+				this.isInitializing = false;
+				console.log('SoundMachine initialization complete');
+			}, 500);
+		}, 100);
 
 		this.initProgressUpdate();
 		this.documentTitle = document.title;
@@ -60,6 +72,11 @@ class SoundMachine extends Component {
 	}
 
 	getConfig() {
+		// Add safety check for refs
+		if (!this.modePanelRef.current) {
+			console.log('SoundMachine: getConfig called but modePanelRef not ready, returning InitPreset');
+			return InitPreset;
+		}
 		return { ...this.modePanelRef.current.state, ...{ track: this.state.track }, ...{ timeSignature: this.state.timeSignature }, ...{ samples: this.soundLibrary.getSamples() } };
 	}
 
@@ -171,14 +188,39 @@ class SoundMachine extends Component {
 	}
 
 	onControlChange() {
+		// Add safety check to prevent loops during initialization
+		if (!this.modePanelRef.current || !this.plannerRef.current) {
+			console.log('SoundMachine: onControlChange called but refs not ready, skipping');
+			return;
+		}
+		
+		// Skip during initialization to prevent rapid calls
+		if (this.isInitializing) {
+			console.log('SoundMachine: skipping onControlChange during initialization');
+			return;
+		}
+		
+		console.log('SoundMachine: onControlChange called');
 		const v = this.getConfig();
+		
+		// Update state to track current modes
+		this.setState({
+			currentPlayMode: v.playMode,
+			currentPlaybackMode: v.playbackMode
+		});
+		
 		this.setPlan(v);
 	}
 
 	onPresetSelect(preset) {
 		// set preset's stuff
 		this.setState({ track: preset.track, timeSignature: preset.timeSignature }, function () {
-			this.modePanelRef.current.setValue(preset)
+			this.modePanelRef.current.setValue(preset);
+			// Update the plan with the new track and timeSignature
+			const config = this.getConfig();
+			config.track = preset.track;
+			config.timeSignature = preset.timeSignature;
+			this.setPlan(config);
 		});
 
 		// set instruments
@@ -345,6 +387,8 @@ class SoundMachine extends Component {
 						<Col>
 							<Planner
 								transport={this.transport}
+								playMode={this.state.currentPlayMode}
+								playbackMode={this.state.currentPlaybackMode}
 								onChange={() => this.onControlChange()}
 								onPlanStep={(bpm) => this.onPlanStep(bpm)}
 								onPlanEnd={() => this.stop()}

@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variation Shakuhachi Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #1e293b;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #64748b;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .section h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+        }
+
+        .param-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .param-group label {
+            display: block;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .param-group select,
+        .param-group input[type="number"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .param-group select:focus,
+        .param-group input[type="number"]:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .slider-group {
+            margin-bottom: 1rem;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .slider-value {
+            font-weight: 600;
+            color: #3b82f6;
+        }
+
+        .slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #e5e7eb;
+            outline: none;
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .input-row {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .input-row input[type="number"] {
+            width: 80px;
+            flex-shrink: 0;
+        }
+
+        .param-description {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+
+        .results {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-label {
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .result-value {
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .holes-section {
+            margin-top: 1.5rem;
+        }
+
+        .holes-title {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        .hole-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+        }
+
+        .hole-number {
+            font-weight: 600;
+            color: #3b82f6;
+            min-width: 60px;
+        }
+
+        .hole-details {
+            flex: 1;
+            margin: 0 1rem;
+        }
+
+        .hole-position {
+            font-weight: 600;
+            color: #059669;
+        }
+
+        .hole-note {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .spans-section {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .spans-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .span-item {
+            background: #f1f5f9;
+            padding: 0.75rem;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .span-label {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-bottom: 0.25rem;
+        }
+
+        .span-value {
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .comparison-section {
+            grid-column: 1 / -1;
+            margin-top: 2rem;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 1px solid #d1d5db;
+        }
+
+        .comparison-table th {
+            background: #f9fafb;
+            padding: 8px 12px;
+            text-align: left;
+            font-weight: 500;
+            color: #374151;
+            border: 1px solid #d1d5db;
+            font-size: 0.75rem;
+            line-height: 1.2;
+        }
+
+        .comparison-table td {
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            font-size: 0.75rem;
+            line-height: 1.2;
+        }
+
+        .comparison-table tr:hover {
+            background: #f8fafc;
+        }
+
+        .comparison-table .bg-gray-25 {
+            background: #fafafa;
+        }
+
+        .comparison-table .bg-blue-100 {
+            background: #dbeafe !important;
+        }
+
+        .comparison-table .text-blue-900 {
+            color: #1e3a8a;
+        }
+
+        .comparison-table .text-blue-600 {
+            color: #2563eb;
+        }
+
+        .comparison-table .text-gray-500 {
+            color: #6b7280;
+        }
+
+        .comparison-table .text-gray-700 {
+            color: #374151;
+        }
+
+        .comparison-table .text-gray-900 {
+            color: #111827;
+        }
+
+        .diagram-section {
+            grid-column: 1 / -1;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .diagram-container {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .spans-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .comparison-table {
+                font-size: 0.75rem;
+            }
+            
+            .comparison-table th,
+            .comparison-table td {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Variation Shakuhachi Calculator</h1>
+            <p>Compare different hole placement styles for 5-hole shakuhachi flutes</p>
+            <div id="debug-status" style="background: #f0f0f0; padding: 10px; margin: 10px 0; border-radius: 5px; font-family: monospace; font-size: 12px;">
+                Loading...
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <!-- Parameters Section -->
+            <div class="section">
+                <h2>Parameters</h2>
+                
+                <div class="param-group">
+                    <label>Maker Style</label>
+                    <select id="maker-style">
+                        <option value="nelson-zink">Nelson Zink - Navaching.com</option>
+                        <option value="john-neptune">John Neptune</option>
+                        <option value="ken-lacosse">Ken LaCosse</option>
+                        <option value="atsuya-okuda">Atsuya Okuda</option>
+                        <option value="yamaguchi-shugetsu">Yamaguchi - Shugetsu</option>
+                        <option value="nishimura-koku">Nishimura Koku</option>
+                        <option value="kodama-youtube1">Kodama Hiroyuki - YouTube 1</option>
+                        <option value="kodama-hoian2">Kodama Hiroyuki - Hoi An 2</option>
+                    </select>
+                    <div class="param-description">Each maker style uses different hole placement percentages based on their traditional methods.</div>
+                </div>
+
+                <div class="param-group">
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <label>Total Length (mm)</label>
+                            <span class="slider-value" id="length-value">540</span>
+                        </div>
+                        <input type="range" id="length-slider" class="slider" min="30" max="1300" value="540" step="1">
+                        <div class="input-row">
+                            <input type="number" id="length-input" value="540" min="30" max="1300" step="1">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="param-group">
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <label>Hole Diameter (mm)</label>
+                            <span class="slider-value" id="hole-diameter-value">10</span>
+                        </div>
+                        <input type="range" id="hole-diameter-slider" class="slider" min="5" max="30" value="10" step="0.1">
+                        <div class="input-row">
+                            <input type="number" id="hole-diameter-input" value="10" min="5" max="30" step="0.1">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="param-group">
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <label>Bore Diameter (mm)</label>
+                            <span class="slider-value" id="bore-diameter-value">19</span>
+                        </div>
+                        <input type="range" id="bore-diameter-slider" class="slider" min="10" max="100" value="19" step="0.1">
+                        <div class="input-row">
+                            <input type="number" id="bore-diameter-input" value="19" min="10" max="100" step="0.1">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="param-group">
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <label>Wall Thickness (mm)</label>
+                            <span class="slider-value" id="wall-thickness-value">4</span>
+                        </div>
+                        <input type="range" id="wall-thickness-slider" class="slider" min="1" max="10" value="4" step="0.1">
+                        <div class="input-row">
+                            <input type="number" id="wall-thickness-input" value="4" min="1" max="10" step="0.1">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="param-group">
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <label>Ergonomic Limit (mm)</label>
+                            <span class="slider-value" id="ergonomic-limit-value">60</span>
+                        </div>
+                        <input type="range" id="ergonomic-limit-slider" class="slider" min="10" max="180" value="60" step="1">
+                        <div class="input-row">
+                            <input type="number" id="ergonomic-limit-input" value="60" min="10" max="180" step="1">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="param-group">
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <label>Temperature (°C)</label>
+                            <span class="slider-value" id="temperature-value">20</span>
+                        </div>
+                        <input type="range" id="temperature-slider" class="slider" min="-10" max="50" value="20" step="1">
+                        <div class="input-row">
+                            <input type="number" id="temperature-input" value="20" min="-10" max="50" step="1">
+                        </div>
+                        <div class="param-description">Affects speed of sound calculation. Room temperature is typically 20-25°C.</div>
+                    </div>
+                </div>
+
+                <div class="param-group">
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <label>Relative Humidity (%)</label>
+                            <span class="slider-value" id="humidity-value">50</span>
+                        </div>
+                        <input type="range" id="humidity-slider" class="slider" min="0" max="100" value="50" step="1">
+                        <div class="input-row">
+                            <input type="number" id="humidity-input" value="50" min="0" max="100" step="1">
+                        </div>
+                        <div class="param-description">Humid air transmits sound faster than dry air. Typical indoor humidity is 30-60%.</div>
+                    </div>
+                </div>
+
+                <div class="param-group">
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <label>A Frequency (Hz)</label>
+                            <span class="slider-value" id="a-frequency-value">440</span>
+                        </div>
+                        <input type="range" id="a-frequency-slider" class="slider" min="400" max="480" value="440" step="0.1">
+                        <div class="input-row">
+                            <input type="number" id="a-frequency-input" value="440" min="400" max="480" step="0.1">
+                        </div>
+                        <div class="param-description">Standard tuning reference. Common values: A=440 (standard), A=432 (alternative), A=444 (baroque).</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="section">
+                <h2>Results</h2>
+                <div class="results" id="results">
+                    <!-- Results will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Style Comparison Table -->
+        <div class="section comparison-section">
+            <h2>Style Comparison Table</h2>
+            <div style="overflow-x: auto;">
+                <table class="comparison-table" id="comparison-table">
+                    <!-- Table will be populated here -->
+                </table>
+            </div>
+            <p id="table-note" style="margin-top: 8px; font-size: 0.75rem; color: #6b7280;">
+                <!-- Note will be populated here -->
+            </p>
+        </div>
+
+        <!-- Technical Diagram -->
+        <div class="section diagram-section">
+            <h2>Technical Diagram</h2>
+            <div class="diagram-container">
+                <svg id="flute-diagram" width="800" height="700">
+                    <!-- SVG diagram will be generated here -->
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <script src="calculator.js"></script>
+</body>
+</html>

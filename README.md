@@ -1,103 +1,152 @@
-# Shakuhachi Makers Tool
+# Shakuhachi Calculator with Integrated Metronome
 
-A modern web application for calculating precise hole positions for making traditional and diatonic shakuhachi flutes, with integrated metronome for practice.
+A comprehensive web application for calculating precise hole positions for traditional and diatonic shakuhachi flutes, featuring an integrated speed trainer metronome for practice.
 
 ## Features
 
-### Shakuhachi Calculators
+### 🎋 Shakuhachi Calculators
 - **Traditional Shakuhachi Calculator (5-hole)**: Calculate hole positions for traditional shakuhachi with pentatonic scale
 - **Diatonic Shakuhachi Calculator (7-hole)**: Calculate hole positions for diatonic shakuhachi with natural major scale
-- **Variation Shakuhachi Calculator**: Advanced calculator with multiple maker styles including:
+- **Variation Shakuhachi Calculator**: Advanced calculator with multiple maker styles:
   - Nelson Zink formula
   - Monty Levenson approach
   - Perry Yung technique
   - Atsuya Okuda method
   - Yamaguchi variants (Katsuya, Kuroda, Kinya)
   - Kodama Hiroyuki variations
-- **Physics-Based Calculations**: Environmental parameters (temperature, humidity), adjustable A frequency reference
-- **Acoustic Wave Analysis**: Resonance mode analysis, standing wave patterns, micro-tuning suggestions
+- **Physics-Based Analysis**: Environmental parameters, acoustic wave analysis, micro-tuning
+- **Interactive Features**: Real-time calculations, comparison tables, responsive design
 
-### Integrated Metronome
-- **Speed Trainer**: Professional metronome with tempo control and patterns
-- **Multiple Sound Kits**: Drum kits, tabla, electronic sounds, metronome clicks
-- **Visual Feedback**: Real-time tempo visualization and track patterns
-- **Background/Practice Mode**: Runs independently for shakuhachi practice
+### 🎵 Integrated Speed Trainer Metronome
+- **Professional Metronome**: Based on Metro Master with full functionality
+- **Multiple Training Modes**: Set Time, By Bar, By Time, Constant tempo
+- **Plan Management**: Step progression with "After plan" and "Step order" options
+- **Sound Kits**: Multiple drum kits, percussion sounds, and click tracks
+- **Visual Feedback**: Real-time BPM display, progress tracking, beat visualization
+- **Keyboard Controls**: Space for start/stop, arrows for tempo/step control
 
-### Interactive Features
-- **Real-time Calculations**: See results update instantly as you modify parameters
-- **Responsive Design**: Works on desktop and mobile devices
-- **Comparison Tables**: Compare different maker styles side-by-side
-- **Export Options**: Save calculations for reference
+## 🚀 Getting Started
 
-## Current Status
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn
 
-### ✅ Working Features
-- All 4 calculator tabs functional
-- Metronome visual interface complete
-- Audio files integrated from metro-master
-- React refs modernized for React 19 compatibility
-- Tone.js API compatibility fixed
-- Application compiles and runs successfully
-
-### 🔧 Known Issues
-- **Metronome Audio**: Visual interface works but sound playback needs debugging
-- Audio loading may need additional initialization
-
-### 🚀 Recent Updates (Backup Created)
-- Complete metronome integration with visual feedback
-- All React compatibility issues resolved
-- Audio files copied from metro-master project
-- Robust error handling for missing audio files
-- Git backup created: commit `7d712e7`
-- Filesystem backup: `shakumak-backup-visual-working-[timestamp]`
-
-## Getting Started
-
-First, install the dependencies:
+### Installation
 
 ```bash
+# Clone the repository
+git clone <your-repo-url>
+cd shakumak
+
+# Install dependencies
 npm install
-```
 
-Then, run the development server:
-
-```bash
+# Run development server
 npm run dev
 ```
 
-Open [http://localhost:3001](http://localhost:3001) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-## Build for Production
+### Build for Production
 
 ```bash
 npm run build
+npm start
 ```
 
-## Credits
+## 📱 Usage
 
-- **Algorithms**: Nelson Zink
-- **Original Implementation**: Jeremy Bornstein
-- **Extensions**: Tran Nghia (extended flute length to 1300mm for 3.6+ flutes)
-- **Diatonic Version**: Jacopo Saporetti
-- **Modern Web Implementation**: Built with Next.js, TypeScript, and Tailwind CSS
+### Shakuhachi Calculators
+1. Select the desired calculator tab (Traditional, Diatonic, or Variation)
+2. Input flute length and other parameters
+3. View calculated hole positions in real-time
+4. Compare different maker styles in Variation calculator
 
-## About Shakuhachi
+### Metronome
+1. Navigate to the "Metronome" tab
+2. Select training mode (Set Time, By Bar, By Time, or Constant)
+3. Configure BPM range and intervals
+4. Use keyboard shortcuts for quick control:
+   - `Space` or `S` - Start/Stop
+   - `↑/↓` - Adjust BPM
+   - `←/→` - Previous/Next step
+   - `Esc` - Stop
 
-The shakuhachi is a traditional Japanese bamboo flute. This tool helps instrument makers calculate the precise positions for finger holes based on acoustic principles and ergonomic considerations.
+## 🛠️ Technical Details
 
-### Traditional Shakuhachi (5-hole)
-- Uses pentatonic scale intervals
-- 5 finger holes plus thumb hole
-- Focuses on traditional Japanese scales
+### Architecture
+- **Framework**: Next.js 15 with App Router
+- **Language**: TypeScript for type safety
+- **Styling**: Tailwind CSS with custom component styling
+- **Audio**: Tone.js for metronome functionality
+- **UI Components**: React with Bootstrap integration
 
-### Diatonic Shakuhachi (7-hole)
-- Uses diatonic scale intervals (whole-whole-half-whole-whole-whole-half)
-- 7 holes for natural major scale
-- Modern adaptation for Western music
+### Project Structure
+```
+src/
+├── app/                    # Next.js app router
+├── components/
+│   ├── metro/             # Metronome components (from Metro Master)
+│   ├── AcousticVisualization.tsx
+│   ├── DiatonicShakuhachiCalculator.tsx
+│   ├── MetronomeTab.tsx
+│   ├── ShakuhachiCalculator.tsx
+│   └── VariationShakuhachiCalculator.tsx
+├── types/                 # TypeScript type definitions
+public/
+├── audio/                 # Sound files for metronome
+└── ...
+```
 
-## Technology Stack
+### Key Dependencies
+- `next`: React framework
+- `react`: UI library
+- `typescript`: Type checking
+- `tailwindcss`: Utility-first CSS
+- `tone`: Web Audio API framework
+- `bootstrap`: UI components
+- `rc-slider`: Range slider components
 
-- [Next.js 15](https://nextjs.org/) - React framework
-- [TypeScript](https://www.typescriptlang.org/) - Type safety
-- [Tailwind CSS](https://tailwindcss.com/) - Styling
-- [React](https://reactjs.org/) - UI library
+## 🎯 Features in Detail
+
+### Metronome Modes
+- **Set Time**: Fixed practice duration with automatic BPM progression
+- **By Bar**: Increase tempo every N bars
+- **By Time**: Increase tempo every N seconds  
+- **Constant**: Fixed tempo practice
+
+### After Plan Options
+- **Stop**: Stop when plan completes
+- **Continue**: Keep playing at final BPM
+- **Repeat**: Loop the entire plan
+
+### Step Order Options
+- **Up and Down**: Ascend then descend through BPM range
+- **Shuffle**: Randomize step order for varied practice
+
+## 📜 Credits
+
+### Shakuhachi Algorithms
+- **Nelson Zink**: Original calculation algorithms
+- **Jeremy Bornstein**: Initial implementation
+- **Tran Nghia**: Extended flute length support
+- **Jacopo Saporetti**: Diatonic version
+
+### Metronome Integration
+- **Metro Master**: Original metronome application
+- **Integration**: Modern React/Next.js adaptation
+
+## 📄 License
+
+This project builds upon open-source shakuhachi calculation tools and integrates the Metro Master metronome for educational and craft purposes.
+
+## 🐛 Issues & Contributions
+
+If you encounter issues or would like to contribute:
+1. Check existing issues
+2. Create detailed bug reports
+3. Submit pull requests with clear descriptions
+
+---
+
+**About Shakuhachi**: The shakuhachi is a traditional Japanese bamboo flute. This tool helps instrument makers calculate precise finger hole positions based on acoustic principles and ergonomic considerations, while providing practice tools for players.

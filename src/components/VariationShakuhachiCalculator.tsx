@@ -382,7 +382,13 @@ export default function VariationShakuhachiCalculator() {
   const calculateAllStyles = useCallback(() => {
     const TL = params.fluteLength
     const BaseNote = 156521.0 / TL
-    const allStylesResults: any[] = []
+    const allStylesResults: Array<{ 
+      style: string, 
+      styleKey: string,
+      styleName: string,
+      results: unknown[], 
+      holePositions: HolePosition[]
+    }> = []
 
     // Calculate for each style
     Object.entries(HOLE_PLACEMENT_STYLES).forEach(([styleKey, style]) => {
@@ -446,8 +452,10 @@ export default function VariationShakuhachiCalculator() {
       }
 
       allStylesResults.push({
+        style: styleKey,
         styleKey,
         styleName: style.name,
+        results: [],
         holePositions
       })
     })
@@ -949,8 +957,8 @@ export default function VariationShakuhachiCalculator() {
                       </div>
                     </td>
                     {styleResult.holePositions
-                      .sort((a: any, b: any) => a.hole - b.hole)
-                      .map((hole: any) => (
+                      .sort((a: HolePosition, b: HolePosition) => a.hole - b.hole)
+                      .map((hole: HolePosition) => (
                       <td key={hole.hole} className="border border-gray-300 px-2 py-2 text-center text-xs text-gray-700">
                         <div>{hole.position}mm</div>
                         <div className="text-gray-500">{hole.frequency}Hz</div>

@@ -4,6 +4,7 @@ import { Samples, InstrumentsByKey } from './Instruments';
 class SoundLibrary  {
     players = new Tone.Players({})
     playersArr = []; 
+    playerCounter = 0; // Add counter for unique keys
   
     reverb = new Tone.Reverb().toDestination();
 
@@ -21,29 +22,32 @@ class SoundLibrary  {
    
     use(idx, instrumentKey, file) {
         const instrument = InstrumentsByKey[instrumentKey];
-        const playerKey = 'player_' + idx;
-
+        
         console.log(`SoundLibrary.use called: idx=${idx}, instrumentKey=${instrumentKey}, file=${file}`);
 
-        // Check if player already exists and dispose it properly
-        if (this.players.has(playerKey)) {
-            console.log('Player already exists, disposing...');
+        // Generate unique key to avoid buffer conflicts
+        this.playerCounter++;
+        const playerKey = `player_${idx}_${this.playerCounter}_${Date.now()}`;
+
+        // Clean up any existing player at this index
+        if (this.playersArr[idx]) {
+            console.log('Disposing existing player at index:', idx);
             try {
-                const existingPlayer = this.players.get(playerKey);
-                if (existingPlayer && typeof existingPlayer.dispose === 'function') {
-                    existingPlayer.dispose();
+                if (this.playersArr[idx].dispose && typeof this.playersArr[idx].dispose === 'function') {
+                    this.playersArr[idx].dispose();
                 }
-                // Remove from the players collection
-                this.players.delete(playerKey);
-                console.log('Existing player disposed and removed');
+                if (this.playersArr[idx].playerKey && this.players.has(this.playersArr[idx].playerKey)) {
+                    this.players.remove(this.playersArr[idx].playerKey);
+                }
             } catch (e) {
-                console.warn('Error disposing existing player:', e);
+                console.warn('Error disposing existing player at index:', idx, e);
             }
+            this.playersArr[idx] = null;
         }
 
         try {
-            // Now add the new player
-            console.log('Adding new player with key:', playerKey);
+            // Add the new player with unique key
+            console.log('Adding new player with unique key:', playerKey);
             this.players.add(playerKey, './audio/' + instrumentKey + '/' + file);
             
             let player = this.players.get(playerKey);
@@ -53,6 +57,7 @@ class SoundLibrary  {
                 player.instrument = instrument;
                 player.file = file;
                 player.idx = idx;
+                player.playerKey = playerKey; // Store the key for cleanup
                 player.fullLabel = Samples.find(el => el.file === file)?.label || 'Unknown';
                 this.playersArr[idx] = player;
                 
@@ -65,6 +70,16 @@ class SoundLibrary  {
                 console.log('Player successfully added to array:', this.playersArr[idx]);
             } else {
                 console.error('Failed to get player after adding');
+                // Create a dummy player to prevent crashes
+                this.playersArr[idx] = {
+                    instrument: instrument,
+                    file: file,
+                    idx: idx,
+                    playerKey: playerKey,
+                    fullLabel: Samples.find(el => el.file === file)?.label || 'Error Loading',
+                    loaded: false,
+                    start: () => console.warn('Player failed to load:', file)
+                };
             }
         } catch (e) {
             console.error('Error adding player:', e);
@@ -73,6 +88,7 @@ class SoundLibrary  {
                 instrument: instrument,
                 file: file,
                 idx: idx,
+                playerKey: playerKey,
                 fullLabel: Samples.find(el => el.file === file)?.label || 'Error Loading',
                 loaded: false,
                 start: () => console.warn('Player failed to load:', file)
@@ -97,11 +113,10 @@ class SoundLibrary  {
         // Reduced logging to prevent console spam
         const player = this.playersArr[trackIdx];
         
-        if (player) {
+        if (player && player.playerKey) {
             try {
-                // In Tone.js v15+, use the Players collection to play by key
-                const playerKey = 'player_' + trackIdx;
-                this.players.player(playerKey).start(time);
+                // Use the stored unique playerKey
+                this.players.player(player.playerKey).start(time);
                 // Only log first few successful plays to avoid spam
                 if (this.playCount === undefined) this.playCount = 0;
                 if (this.playCount < 3) {
@@ -123,6 +138,8 @@ class SoundLibrary  {
                     console.error('Fallback also failed:', e2);
                 }
             }
+        } else {
+            console.warn(`No player found for track ${trackIdx} or missing playerKey`);
         }
     }
 

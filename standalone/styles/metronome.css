@@ -1,0 +1,412 @@
+/* Metronome Specific Styles */
+
+.metronome-container {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.metronome-container h2 {
+    color: #495057;
+    margin-bottom: 40px;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+/* BPM Section */
+.bpm-section {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    border: 1px solid #e9ecef;
+}
+
+.bpm-display {
+    margin-bottom: 20px;
+}
+
+.bpm-display #bpm-value {
+    font-size: 48px;
+    font-weight: bold;
+    color: #495057;
+    display: block;
+    line-height: 1;
+}
+
+.bpm-label {
+    font-size: 16px;
+    color: #6c757d;
+    font-weight: 500;
+    margin-top: 5px;
+}
+
+.bpm-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    justify-content: center;
+}
+
+.bpm-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.bpm-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.bpm-slider {
+    flex: 1;
+    max-width: 300px;
+    height: 8px;
+    border-radius: 4px;
+    background: #e9ecef;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.bpm-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.5);
+}
+
+.bpm-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.5);
+}
+
+/* Transport Controls */
+.transport-section {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    border: 1px solid #e9ecef;
+}
+
+.transport-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    margin: 0 10px;
+}
+
+.transport-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.transport-btn.active {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+}
+
+.play-btn.playing {
+    background: linear-gradient(135deg, #dc3545 0%, #e74c3c 100%);
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
+}
+
+/* Time Signature */
+.time-signature {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    border: 1px solid #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #495057;
+}
+
+.time-signature select {
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #495057;
+    cursor: pointer;
+}
+
+.time-signature select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Visual Metronome */
+.visual-metronome {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    border: 1px solid #e9ecef;
+}
+
+.beat-indicator {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.beat-light {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+    color: #6c757d;
+    transition: all 0.2s ease;
+    border: 3px solid #dee2e6;
+}
+
+.beat-light.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-color: #667eea;
+    transform: scale(1.1);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.beat-light.accent {
+    background: linear-gradient(135deg, #ffc107 0%, #ff8f00 100%);
+    border-color: #ffc107;
+    box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+}
+
+/* Pendulum */
+.pendulum-container {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 15px;
+    border: 2px solid #dee2e6;
+}
+
+.pendulum {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform-origin: 50% 0;
+    width: 4px;
+    height: 150px;
+    background: linear-gradient(135deg, #495057 0%, #343a40 100%);
+    border-radius: 2px;
+    transform: translateX(-50%);
+    transition: transform 0.1s ease-out;
+}
+
+.pendulum::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.5);
+}
+
+.pendulum.swing-left {
+    transform: translateX(-50%) rotate(-30deg);
+}
+
+.pendulum.swing-right {
+    transform: translateX(-50%) rotate(30deg);
+}
+
+/* Sound Section */
+.sound-section {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    border: 1px solid #e9ecef;
+}
+
+.sound-section .input-group {
+    margin-bottom: 20px;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: #667eea;
+}
+
+.checkbox-group label {
+    font-weight: 500;
+    color: #495057;
+    cursor: pointer;
+}
+
+#volume-display {
+    margin-left: 10px;
+    font-weight: 600;
+    color: #495057;
+    min-width: 40px;
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+    .bpm-display #bpm-value {
+        font-size: 36px;
+    }
+    
+    .bpm-controls {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .bpm-slider {
+        max-width: 250px;
+    }
+    
+    .transport-btn {
+        margin: 5px;
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+    
+    .beat-indicator {
+        gap: 10px;
+    }
+    
+    .beat-light {
+        width: 40px;
+        height: 40px;
+        font-size: 14px;
+    }
+    
+    .pendulum-container {
+        height: 150px;
+    }
+    
+    .pendulum {
+        height: 120px;
+    }
+    
+    .time-signature {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .metronome-container {
+        padding: 0 10px;
+    }
+    
+    .bpm-section,
+    .transport-section,
+    .visual-metronome,
+    .sound-section {
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .transport-btn {
+        padding: 10px 15px;
+        font-size: 12px;
+        margin: 3px;
+    }
+    
+    .beat-indicator {
+        gap: 8px;
+    }
+    
+    .beat-light {
+        width: 35px;
+        height: 35px;
+        font-size: 12px;
+    }
+}
+
+/* Animation for active metronome */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.metronome-active .bpm-display {
+    animation: pulse 0.1s ease-in-out;
+}
+
+/* High contrast and accessibility */
+@media (prefers-contrast: high) {
+    .beat-light {
+        border-width: 4px;
+    }
+    
+    .pendulum {
+        width: 6px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pendulum {
+        transition: none;
+    }
+    
+    .beat-light {
+        transition: none;
+    }
+    
+    .metronome-active .bpm-display {
+        animation: none;
+    }
+}

@@ -19,8 +19,30 @@ class Planner extends Component {
 		stepProgress: 0,
 		planProgress: 0,
 		isUpDown: false,
+		isRandom: false, // Add this missing property
 		isPaused: false
 	};
+
+	componentDidUpdate(prevProps) {
+		// Update state when props change
+		if (prevProps.playMode !== this.props.playMode || 
+			prevProps.playbackMode !== this.props.playbackMode) {
+			this.setState({
+				playMode: this.props.playMode,
+				playbackMode: this.props.playbackMode
+			});
+		}
+	}
+
+	setValue(config) {
+		// Method to update planner state from external config changes
+		this.setState({
+			playMode: config.playMode || this.state.playMode,
+			playbackMode: config.playbackMode || this.state.playbackMode,
+			isUpDown: config.isUpDown || false,
+			isRandom: config.isRandom || false
+		});
+	}
 
 	makePlan(s) {
 		let segments = [];
@@ -285,56 +307,63 @@ class Planner extends Component {
 						{Tr("Total time:")} {Utils.formatTime(this.state.totalPlanTime)}
 					</div>
 				</div>
-				<Collapse isOpen={this.state.playMode !== PlayModes.CONSTANT}>
-					<div>{Tr("After plan")}</div>
-					<ButtonGroup size="sm">
-						<Button
-							size="sm"
-							outline
-							onClick={() => this.onPlaybackChange(PlaybackModes.STOP)}
-							active={this.state.playbackMode === PlaybackModes.STOP}
-						>
-							{Tr("Stop")}
-						</Button>
-						<Button
-							size="sm"
-							outline
-							onClick={() => this.onPlaybackChange(PlaybackModes.CONTINUE)}
-							active={this.state.playbackMode === PlaybackModes.CONTINUE}
-						>
-							{Tr("Continue")}
-						</Button>
-						<Button
-							size="sm"
-							outline
-							onClick={() => this.onPlaybackChange(PlaybackModes.REPEAT)}
-							active={this.state.playbackMode === PlaybackModes.REPEAT}
-						>
-							{Tr("Repeat")}
-						</Button>
-					</ButtonGroup>
-					<div>{Tr("Step order")}</div>
-					<ButtonGroup>
-						<Button
-							size="sm"
-							outline
-							onClick={(e) => this.onUpDownBtn(e)}
-							active={this.state.isUpDown}
-						>
-							{Tr("Up and Down")}
+				{/* Show "After plan" and "Step order" controls for all modes except CONSTANT */}
+				{this.state.playMode !== PlayModes.CONSTANT && (
+					<div style={{ marginTop: '10px' }}>
+						<div style={{ marginBottom: '5px' }}>
+							<div>{Tr("After plan")}</div>
+							<ButtonGroup size="sm">
+								<Button
+									size="sm"
+									outline
+									onClick={() => this.onPlaybackChange(PlaybackModes.STOP)}
+									active={this.state.playbackMode === PlaybackModes.STOP}
+								>
+									{Tr("Stop")}
+								</Button>
+								<Button
+									size="sm"
+									outline
+									onClick={() => this.onPlaybackChange(PlaybackModes.CONTINUE)}
+									active={this.state.playbackMode === PlaybackModes.CONTINUE}
+								>
+									{Tr("Continue")}
+								</Button>
+								<Button
+									size="sm"
+									outline
+									onClick={() => this.onPlaybackChange(PlaybackModes.REPEAT)}
+									active={this.state.playbackMode === PlaybackModes.REPEAT}
+								>
+									{Tr("Repeat")}
+								</Button>
+							</ButtonGroup>
+						</div>
+						<div style={{ marginBottom: '5px' }}>
+							<div>{Tr("Step order")}</div>
+							<ButtonGroup>
+								<Button
+									size="sm"
+									outline
+									onClick={(e) => this.onUpDownBtn(e)}
+									active={this.state.isUpDown}
+								>
+									{Tr("Up and Down")}
 
-						</Button>
-						<Button
-							size="sm"
-							outline
-							// toggle
-							onClick={() => this.onRandomBtn()}
-							active={this.state.isRandom}
-						>
-							{Tr("Shuffle")}
-						</Button>
-					</ButtonGroup>
-				</Collapse>
+								</Button>
+								<Button
+									size="sm"
+									outline
+									// toggle
+									onClick={() => this.onRandomBtn()}
+									active={this.state.isRandom}
+								>
+									{Tr("Shuffle")}
+								</Button>
+							</ButtonGroup>
+						</div>
+					</div>
+				)}
 
 			</SimplePanel>
 

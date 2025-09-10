@@ -2,8 +2,8 @@
 	/* --pane-title-color: #aaa; */
 	--main-text-color: #ccc;
 	--pane-title-bgcolor: #222;
-	--pane-body-bgcolor_1: #333;
-	--pane-body-bgcolor_2: #222;
+	--pane-body-bgcolor_1: #444;
+	--pane-body-bgcolor_2: #333;
 	--indicator-color: rgba(255, 255, 255, 0.5);
 	--indicator-outline-color: rgba(30, 30, 30, 0.5);
 	--active-color: #f55;
@@ -120,11 +120,12 @@ body {
 
 .App .pane {
 	/* background-color: #222; */
-	/* border: thin solid #fff; */
+	border: 1px solid #555;
 	background-image: linear-gradient(
 		var(--pane-body-bgcolor_1),
 		var(--pane-body-bgcolor_2)
 	);
+	border-radius: 8px;
 	-webkit-box-shadow: 10px 10px 30px 3px rgba(0, 0, 0, 0.15);
 	-moz-box-shadow: 10px 10px 30px 3px rgba(0, 0, 0, 0.15);
 	box-shadow: 10px 10px 30px 3px rgba(0, 0, 0, 0.15);
@@ -245,15 +246,21 @@ body {
 
 .PresetsManager {
 	font-size: 80%;
+	border: 1px solid #dee2e6;
+	border-radius: 6px;
+	padding: 0.5rem;
+	background-color: #f8f9fa;
 }
 
 .PresetsManager .presetItem {
-	background-color: #90a1b128;
+	background-color: #f8f9fa;
 	margin-bottom: 1px;
+	border: 1px solid #dee2e6;
+	color: #333;
 }
 
 .PresetsManager .presetItem .userPresetSavedDtm {
-	color: #fff4;
+	color: #6c757d;
 	padding: 0 1em;
 }
 /* .PresetsManager .preset {
@@ -262,10 +269,23 @@ body {
 } */
 
 .PresetsManager .editBtn {
-	color: #f5f5f5;
-	background-color: #f55;
+	color: #fff;
+	background-color: #dc3545;
 	padding: 0 1em;
 	margin-left: 1em;
+	border: 1px solid #c82333;
+}
+
+/* Style preset manager buttons for better visibility */
+.PresetsManager .btn {
+	background-color: #e9ecef !important;
+	border-color: #ced4da !important;
+	color: #495057 !important;
+}
+
+.PresetsManager .btn:hover {
+	background-color: #f8f9fa !important;
+	border-color: #adb5bd !important;
 }
 
 .Accent {

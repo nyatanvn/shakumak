@@ -103,7 +103,7 @@ export const InitPreset = {
         400
     ],
     "playbackMode": "stop",
-    "playMode": "constant",
+    "playMode": "by_time", // Changed from "constant" to "by_time" to show controls
     "stepsNum": 10,
     "exerciseTime": 600,
     "bpmStepDropdownOpen": false,

@@ -235,7 +235,7 @@ const AcousticWaveAnalysis: React.FC<{ params: AcousticParams }> = ({ params }) 
             <label className="block text-sm font-medium mb-2">Visualization Type</label>
             <select 
               value={visualizationType} 
-              onChange={(e) => setVisualizationType(e.target.value as any)}
+              onChange={(e) => setVisualizationType(e.target.value as 'standing' | 'pressure' | 'velocity')}
               className="w-full p-2 border rounded"
             >
               <option value="standing">Standing Wave</option>

@@ -21,7 +21,23 @@ export default function AcousticVisualization({
   holePositions = [],
   boreDiameter = 20
 }: AcousticVisualizationProps) {
-  // Early return if essential props are missing
+  // All React hooks must be called before any early returns
+  const [visibleWaves, setVisibleWaves] = useState<{[key: number]: boolean}>(() => {
+    const initialState: {[key: number]: boolean} = { 0: true }
+    holePositions.forEach(hole => {
+      initialState[hole.hole] = true
+    })
+    return initialState
+  })
+  
+  const [selectedHole, setSelectedHole] = useState<number | null>(null)
+  const [zoomLevel, setZoomLevel] = useState<number>(1)
+  const [showHoles, setShowHoles] = useState<boolean>(true)
+  const [panOffset, setPanOffset] = useState<number>(0)
+  const [breathPower, setBreathPower] = useState<number>(0.7)
+  const [showFlatPoints, setShowFlatPoints] = useState<boolean>(true)
+
+  // Early return after all hooks
   if (!fluteLength || fluteLength <= 0) {
     return (
       <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
@@ -35,29 +51,6 @@ export default function AcousticVisualization({
   const scale = (svgWidth - 100) / fluteLength
   const startX = 50
   const centerY = svgHeight / 2
-  
-  // State for toggling waves visibility
-  const [visibleWaves, setVisibleWaves] = useState<{[key: number]: boolean}>(() => {
-    const initialState: {[key: number]: boolean} = { 0: true } // Base frequency always visible initially
-    holePositions.forEach(hole => {
-      initialState[hole.hole] = true
-    })
-    return initialState
-  })
-  
-  // State for individual wave analysis
-  const [selectedHole, setSelectedHole] = useState<number | null>(null)
-  
-  // State for zoom and hole visibility
-  const [zoomLevel, setZoomLevel] = useState<number>(1)
-  const [showHoles, setShowHoles] = useState<boolean>(true)
-  const [panOffset, setPanOffset] = useState<number>(0)
-  
-  // State for breath power (affects wave propagation distance)
-  const [breathPower, setBreathPower] = useState<number>(0.7) // 0.1 to 1.0
-  
-  // State for flat point visualization
-  const [showFlatPoints, setShowFlatPoints] = useState<boolean>(true)
   
   const toggleWave = (holeNumber: number) => {
     setVisibleWaves(prev => ({
@@ -219,7 +212,7 @@ export default function AcousticVisualization({
   }
   
   // Individual wave analysis component
-  const IndividualWaveAnalysis = ({ hole, holeData }: { hole: number, holeData: any }) => {
+  const IndividualWaveAnalysis = ({ hole, holeData }: { hole: number, holeData: { position: number, frequency: number, noteName: string, error: boolean, diameter?: number, note?: string } }) => {
     // Safety checks for holeData
     if (!holeData || !holeData.frequency || !holeData.position || !holeData.noteName) {
       return (
@@ -1678,7 +1671,7 @@ export default function AcousticVisualization({
       <div className="mb-6">
         <h4 className="font-medium mb-3 text-gray-800">Individual Note Analysis</h4>
         <div className="text-sm text-gray-800 mb-4 font-medium">
-          Click "Analyze" on any note in the diagram above to see detailed fundamental and octave wave analysis.
+          Click &quot;Analyze&quot; on any note in the diagram above to see detailed fundamental and octave wave analysis.
         </div>
         
         {/* Individual wave analysis for selected hole */}
@@ -1710,7 +1703,7 @@ export default function AcousticVisualization({
         </ul>
         
         <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-          <p><strong>For Flute Makers:</strong> This shows realistic air flow patterns with Nelson Zink flat point analysis. Green circular particles around open holes demonstrate the vortex patterns that create sound. Blue axial particles show standing wave pressure along the bore. Purple dashed lines mark flat points (pressure nodes) - the optimal zones for hole placement according to Nelson Zink's acoustic principles. Holes should be positioned as close as possible to these flat points for optimal intonation and response.</p>
+          <p><strong>For Flute Makers:</strong> This shows realistic air flow patterns with Nelson Zink flat point analysis. Green circular particles around open holes demonstrate the vortex patterns that create sound. Blue axial particles show standing wave pressure along the bore. Purple dashed lines mark flat points (pressure nodes) - the optimal zones for hole placement according to Nelson Zink&apos;s acoustic principles. Holes should be positioned as close as possible to these flat points for optimal intonation and response.</p>
         </div>
         
         <div className="mt-2 p-3 bg-yellow-50 rounded-lg">

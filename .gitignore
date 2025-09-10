@@ -39,3 +39,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# backup files
+*.backup
+*.bak
+*-backup*
+*.tar.gz
+
+# development files
+metro-master/
+chibadoc/
+BACKUP_MANIFEST.md
+METRONOME_DEBUG_NOTES.md

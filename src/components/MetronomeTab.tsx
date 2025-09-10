@@ -16,18 +16,31 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 interface MetronomeTabState {
   showMask: boolean;
+  isLoading: boolean;
 }
 
-class MetronomeTab extends Component<{}, MetronomeTabState> {
-  private smRef = React.createRef<any>();
+class MetronomeTab extends Component<Record<string, never>, MetronomeTabState> {
+  private smRef = React.createRef<unknown>();
 
   state = {
-    showMask: true
+    showMask: true,
+    isLoading: true
   };
 
   removeLoadMask = () => {
-    this.setState({ showMask: false });
+    console.log('MetronomeTab: removeLoadMask called');
+    this.setState({ showMask: false, isLoading: false });
   };
+
+  componentDidMount() {
+    // Fallback timeout to ensure loading state clears
+    setTimeout(() => {
+      if (this.state.isLoading) {
+        console.log('MetronomeTab: Fallback timeout clearing loading state');
+        this.setState({ showMask: false, isLoading: false });
+      }
+    }, 3000); // 3 second fallback
+  }
 
   render() {
     return (
@@ -39,10 +52,18 @@ class MetronomeTab extends Component<{}, MetronomeTabState> {
           </div>
           
           <div className="bg-gray-50 rounded-lg p-4">
-            <SoundMachine 
-              ref={this.smRef} 
-              onReady={this.removeLoadMask} 
-            />
+            {this.state.isLoading && (
+              <div className="text-center p-8">
+                <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+                <p className="mt-2 text-gray-600">Loading Metronome...</p>
+              </div>
+            )}
+            <div style={{ opacity: this.state.isLoading ? 0 : 1, transition: 'opacity 0.3s ease' }}>
+              <SoundMachine 
+                ref={this.smRef} 
+                onReady={this.removeLoadMask} 
+              />
+            </div>
           </div>
 
           <div className="mt-4 p-4 bg-blue-50 rounded-lg">
@@ -56,7 +77,8 @@ class MetronomeTab extends Component<{}, MetronomeTabState> {
           </div>
         </div>
         
-        <div className={this.state.showMask ? 'loadmask' : 'loadmask fadeOut'} />
+        {/* Remove the problematic loadmask that was covering the interface */}
+        {/* <div className={this.state.showMask ? 'loadmask' : 'loadmask fadeOut'} /> */}
       </div>
     );
   }

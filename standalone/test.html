@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Test</title>
+</head>
+<body>
+    <h1>Debug Test</h1>
+    <div id="output"></div>
+    
+    <script>
+        console.log('Starting debug test...');
+        
+        // Test basic functionality
+        const HOLE_PLACEMENT_STYLES = {
+            'nelson-zink': {
+                name: 'Nelson Zink - Navaching.com',
+                thumb: 0.427,
+                hole4: 0.488,
+                hole3: 0.603,
+                hole2: 0.688,
+                hole1: 0.785
+            }
+        };
+        
+        console.log('HOLE_PLACEMENT_STYLES:', HOLE_PLACEMENT_STYLES);
+        
+        const params = {
+            length: 540,
+            holeDiameter: 10,
+            boreDiameter: 19,
+            wallThickness: 4,
+            ergonomicLimit: 60,
+            temperature: 20,
+            humidity: 50,
+            aFrequency: 440,
+            makerStyle: 'nelson-zink'
+        };
+        
+        console.log('params:', params);
+        
+        // Test basic calculation
+        const baseNote = 156521.0 / params.length;
+        console.log('baseNote:', baseNote);
+        
+        const style = HOLE_PLACEMENT_STYLES[params.makerStyle];
+        console.log('style:', style);
+        
+        const percentages = [style.hole1, style.hole2, style.hole3, style.hole4, style.thumb];
+        console.log('percentages:', percentages);
+        
+        const HoleLocations = [];
+        for (let i = 0; i < percentages.length; i++) {
+            let position = Math.round(params.length * percentages[i]);
+            HoleLocations.push(position);
+        }
+        
+        console.log('HoleLocations:', HoleLocations);
+        
+        document.getElementById('output').innerHTML = `
+            <p>Base Note: ${baseNote.toFixed(2)} Hz</p>
+            <p>Style: ${style.name}</p>
+            <p>Hole Locations: ${HoleLocations.join(', ')} mm</p>
+        `;
+        
+        console.log('Test completed successfully!');
+    </script>
+</body>
+</html>
