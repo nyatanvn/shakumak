@@ -2,6 +2,8 @@
 
 A comprehensive web application for calculating precise hole positions for traditional and diatonic shakuhachi flutes, featuring an integrated speed trainer metronome for practice.
 
+https://nyatanvn.github.io/shakumak/
+
 ## Features
 
 ### 🎋 Shakuhachi Calculators
