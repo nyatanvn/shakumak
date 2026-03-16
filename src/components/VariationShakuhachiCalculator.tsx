@@ -631,7 +631,6 @@ export default function VariationShakuhachiCalculator() {
                 <option value="kodama-youtube1">Kodama Hiroyuki - YouTube 1</option>
                 <option value="kodama-hoian2">Kodama Hiroyuki - Hoi An 2</option>
                 <option value="chinhkhuat">Chinh Khuat - Hoi An 1</option>
-                ChinhKhuat
               </select>
               <p className="mt-1 text-xs text-slate-600">
                 Each maker style uses different hole placement percentages based on their traditional methods.
