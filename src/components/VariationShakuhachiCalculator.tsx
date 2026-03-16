@@ -122,6 +122,14 @@ const HOLE_PLACEMENT_STYLES = {
     hole3: 0.579, // 0.579*L + 1mm (will be calculated dynamically)
     hole2: 0.679, // 0.679*L
     hole1: 0.779  // 0.779*L
+  },
+  'chinhkhuat': {
+    name: 'Chinh Khuat - Hoi An 1',
+    thumb: 0.403, // 0.403*L - 1mm (will be calculated dynamically)
+    hole4: 0.478, // 0.478*L - 1mm (will be calculated dynamically)
+    hole3: 0.59, // 0.59*L + 1mm (will be calculated dynamically)
+    hole2: 0.685, // 0.685*L
+    hole1: 0.773  // 0.773*L
   }
 } as const
 
@@ -622,6 +630,8 @@ export default function VariationShakuhachiCalculator() {
                 <option value="nishimura-koku">Nishimura Koku</option>
                 <option value="kodama-youtube1">Kodama Hiroyuki - YouTube 1</option>
                 <option value="kodama-hoian2">Kodama Hiroyuki - Hoi An 2</option>
+                <option value="chinhkhuat">Chinh Khuat - Hoi An 1</option>
+                ChinhKhuat
               </select>
               <p className="mt-1 text-xs text-slate-600">
                 Each maker style uses different hole placement percentages based on their traditional methods.
